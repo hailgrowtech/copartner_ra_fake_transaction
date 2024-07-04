@@ -68,19 +68,16 @@ const Wallet = () => {
           {transactionData.map((row, index) => (
             <div
               key={index}
-              className="flex flex-col justify-around h-[248px] bg-[#18181B] bg-opacity-[50%] rounded-[30px] md:m-4 m-[10px] p-4 w-[90%] max-w-sm"
+              className="flex flex-col justify-between h-[248px] bg-[#18181B] bg-opacity-[50%] rounded-[30px] md:m-4 m-[10px] p-4 w-[90%] max-w-sm"
             >
-              <div className="flex flex-row justify-between">
-                <p className="w-[173px] h-[26px] font-[600] text-[16px] leading-[25px] text-lightWhite">
-                  {row.planName}
-                </p>
-                <img src={invoiceImg} className="w-[20px] h-[20px]" />
-              </div>
-              <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
-                <span className="text-dimWhite">TRANSACTION:</span> {row.transId}
+            <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[18px] leading-[12px] text-lightWhite">
+                {`T${row.transId}`}
               </span>
               <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
-                <span className="text-dimWhite">DATE:</span> {row.date}
+                <span className="text-dimWhite">DATE:</span> {row.date}, 8:28:00 AM
+              </span>
+              <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
+                <span className="text-dimWhite">PLAN NAME:</span> {row.planName}
               </span>
               <span className="flex items-center justify-between sm:w-[305px] h-[34px] font-[500] text-[14px] leading-[12px] text-lightWhite">
                 <span className="text-dimWhite">USER NUMBER:</span>{" "}
@@ -99,9 +96,15 @@ const Wallet = () => {
               <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
                 <span className="text-dimWhite">KYC:</span> Y
               </span>
-              <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[18px] leading-[12px] text-lightWhite">
+              <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
                 <span className="text-dimWhite">AMOUNT:</span> {row.amount}
               </span>
+              <div className="flex flex-row justify-between">
+                <p className="w-[173px] h-[26px] font-[600] text-[14px] leading-[25px] text-lightWhite">
+                  INVOICE:
+                </p>
+                <img src={invoiceImg} className="w-[20px] h-[20px]" />
+              </div>
             </div>
           ))}
           <button className="mt-6 md:w-[147px] md:h-[40px] md:flex items-center justify-center flex w-[110px] h-[30px] rounded-[6px] bg-lightWhite md:text-[14px] text-[10px] font-[500] md:leading-[16px] leading-[12px]">
@@ -129,10 +132,10 @@ const Wallet = () => {
                 className={index % 2 === 0 ? "bg-transparent" : "bg-[#1E1E22]"}
               >
                 <td className="text-center font-[500] text-[16px] leading-[18px] py-2">
-                  {row.transId}
+                {`T${row.transId}`}
                 </td>
                 <td className="text-center font-[500] text-[16px] leading-[18px] py-2">
-                  {row.date}
+                  {row.date}, 8:28:00 AM
                 </td>
                 <td className="text-center font-[500] text-[16px] leading-[18px] py-2">
                   {row.planName}
