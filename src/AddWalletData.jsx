@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const AddWalletData = ({ closeDialog, addCourse }) => {
   const [courseName, setCourseName] = useState("");
   const [amount, setAmount] = useState("");
-  const [userNum, setUserNum] = useState("");
+  const [userNum, setUserNum] = useState(generateMobileNumber());
   const [planName, setPlanName] = useState("");
   const [des, setDes] = useState("");
   const [isPlanOpen, setIsPlanOpen] = useState(false);
@@ -17,27 +17,32 @@ const AddWalletData = ({ closeDialog, addCourse }) => {
     });
   };
 
+  function generateMobileNumber() {
+    return Math.floor(Math.random() * 9000000000) + 1000000000;
+  }
+
   const handleSubmit = () => {
-    if (!amount || !userNum || !planName) {
+    if (!amount || !userNum || !planName || !startDate) {
       handleError("Please fill all fields");
       return;
     }
 
     const newCourse = {
       transId: Date.now(), // Unique transaction ID
-      date: new Date(startDate).toLocaleDateString(),
+      date: new Date(startDate).toLocaleString(), // Save both date and time
       planName,
       userNum,
       amount,
     };
 
+    // Add data to transactionData
     addCourse(newCourse);
   };
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center">
       <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-[40%]">
-        <div className="bg-[#2E374B] rounded-lg md:w-[1084px] w-[378px] md:h-[65%] h-[80%] overflow-y-auto p-8 relative">
+        <div className="bg-[#2E374B] rounded-lg md:w-[1084px] w-[378px] md:h-auto h-[80%] overflow-y-auto p-8 relative">
           <div className="flex items-center justify-between mb-4">
             <h2 className="md:h-[52px] font-inter font-[700] md:text-[30px] text-[18px] md:leading-[51px] text-new md:ml-0 ml-[-0.8rem]">
               Add Transaction
@@ -99,7 +104,7 @@ const AddWalletData = ({ closeDialog, addCourse }) => {
                   <input
                     type="number"
                     value={userNum}
-                    onChange={(e) => setUserNum(e.target.value)}
+                    readOnly
                     id="default-input"
                     className="md:w-[482px] w-[345px] px-4 py-2 rounded-md text-white border border-[#40495C] bg-[#282F3E]"
                   />
@@ -171,24 +176,6 @@ const AddWalletData = ({ closeDialog, addCourse }) => {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="relative md:ml-0 ml-[-16px]">
-              <label
-                className="flex items-center justify-center bg-[#282F3E] text-white opacity-[50%]
-                  w-[90px] h-[26px] rounded-[8px] font-[400] md:text-[14px] text-[13px] md:leading-[16px] leading-[13px] text-center"
-              >
-                Description
-              </label>
-              <textarea
-                typeof="text"
-                onChange={(e) => setDes(e.target.value)}
-                id="des-input"
-                value={des}
-                rows="4"
-                className="block p-2 rounded-md text-white border border-[#40495C] bg-[#282F3E] md:w-full w-[105%]"
-                placeholder="Write something here"
-              ></textarea>
             </div>
           </div>
 

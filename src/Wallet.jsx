@@ -14,12 +14,16 @@ const Wallet = () => {
     if (savedData) {
       setTransactionData(JSON.parse(savedData));
     } else {
-      setTransactionData(initialWalletData);
+      setTransactionData([]);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("walletData", JSON.stringify(transactionData));
+    if (transactionData.length > 0) {
+      sessionStorage.setItem("walletData", JSON.stringify(transactionData));
+    } else {
+      sessionStorage.removeItem("walletData");
+    }
   }, [transactionData]);
 
   const openDialog = () => {
@@ -49,7 +53,7 @@ const Wallet = () => {
 
   return (
     <div className="flex md:mt-[3rem] mt-1 flex-col gap-4">
-      <div className="flex md:flex-row flex-row justify-between py-4 md:px-0 px-5">
+      <div className="flex items-center md:flex-row flex-row justify-between py-4 md:px-0 px-5">
         <span className="text-white md:w-[210px] h-[27px] font-inter font-[600] text-[22px] md:leading-[27px] md:items-center items-start">
           Transaction History
         </span>
@@ -63,35 +67,33 @@ const Wallet = () => {
           <AddWalletData addCourse={addCourse} closeDialog={closeDialog} />
         )}
       </div>
-      {smallScreen ? (
+      {transactionData.length === 0 ? (
+        <div className="text-white text-center py-4">
+          No transactions found.
+        </div>
+      ) : smallScreen ? (
         <div className="flex flex-wrap justify-center items-center bg-gradient max-h py-6">
           {transactionData.map((row, index) => (
             <div
               key={index}
               className="flex flex-col justify-between h-[248px] bg-[#18181B] bg-opacity-[50%] rounded-[30px] md:m-4 m-[10px] p-4 w-[90%] max-w-sm"
             >
-            <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[18px] leading-[12px] text-lightWhite">
+              <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[18px] leading-[12px] text-lightWhite">
                 {`T${row.transId}`}
               </span>
               <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
-                <span className="text-dimWhite">DATE:</span> {row.date}, 8:28:00 AM
+                <span className="text-dimWhite">DATE:</span> {row.date}
               </span>
               <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
                 <span className="text-dimWhite">PLAN NAME:</span> {row.planName}
               </span>
               <span className="flex items-center justify-between sm:w-[305px] h-[34px] font-[500] text-[14px] leading-[12px] text-lightWhite">
-                <span className="text-dimWhite">USER NUMBER:</span>{" "}
-                {row.userNum}
+                <span className="text-dimWhite">USER NUMBER:</span>
+                <span style={{ filter: "blur(2px)" }}>{row.userNum}</span>
               </span>
-              <span
-                className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite cursor-pointer"
-              >
+              <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite cursor-pointer">
                 <span className="text-dimWhite">TELEGRAM:</span>{" "}
-                <img
-                  src={Link}
-                  alt="INVOICE"
-                  className="w-[18px] h-[18px]"
-                />
+                <img src={Link} alt="INVOICE" className="w-[18px] h-[18px]" />
               </span>
               <span className="flex items-center justify-between sm:w-[305px] h-[13px] font-[500] text-[14px] leading-[12px] text-lightWhite">
                 <span className="text-dimWhite">KYC:</span> Y
@@ -132,15 +134,15 @@ const Wallet = () => {
                 className={index % 2 === 0 ? "bg-transparent" : "bg-[#1E1E22]"}
               >
                 <td className="text-center font-[500] text-[16px] leading-[18px] py-2">
-                {`T${row.transId}`}
+                  {`T${row.transId}`}
                 </td>
                 <td className="text-center font-[500] text-[16px] leading-[18px] py-2">
-                  {row.date}, 8:28:00 AM
+                  {row.date}
                 </td>
                 <td className="text-center font-[500] text-[16px] leading-[18px] py-2">
                   {row.planName}
                 </td>
-                <td className="text-center font-[500] text-[16px] leading-[18px] py-2">
+                <td className="text-center font-[500] text-[16px] leading-[18px] py-2" style={{ filter: 'blur(2px)' }}>
                   {row.userNum}
                 </td>
                 <td className="text-center font-[500] leading-[18px] px-12 py-2 cursor-pointer">
