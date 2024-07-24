@@ -18,7 +18,7 @@ const AddWalletData = ({ closeDialog, addCourse }) => {
   };
 
   function generateMobileNumber() {
-    return Math.floor(Math.random() * 9000000000) + 1000000000;
+    return '9' + Math.floor(Math.random() * 900000000);
   }
 
   const handleSubmit = () => {
